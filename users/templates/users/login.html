@@ -1,0 +1,39 @@
+{% extends "polls/base.html" %}
+{% load widget_tweaks %}
+
+{% block title %}ورود - همگرایی{% endblock %}
+
+{% block main %}
+
+<div class="main-page">
+    <div class="page-login tcenter">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-login">
+                <div class="page-title">
+                    <h2>ورود به حساب کاربری</h2>
+                </div>
+                {% if login_form.non_field_errors %}
+                    {% for error in login_form.non_field_errors %}
+                        <div class="alert alert-danger">
+                                <strong>{{ error|escape }}</strong>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                </br>
+                {% render_field login_form.phone_number class="form-control input-sm chat-input IRANSans" placeholder="شماره موبایل"  %}
+                </br>
+                {% render_field login_form.password class="form-control input-sm chat-input IRANSans" placeholder="رمز عبور"  %}
+                </br>
+                
+                <div class="wrapper tcenter">
+                    <span class="group-btn">
+                        <a href="{% url 'register' %}" class="IRANSans">آیا هنوز عضو نشده‌اید ؟ <i class="fa fa-sign-in"></i></a>
+                        <button class="btn btn-primary btn-md IRANSans" type="submit">ورود<i class="fa fa-sign-in"></i></button>
+                    </span>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>  <!-- end of main-page -->
+{% endblock %}

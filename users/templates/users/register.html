@@ -1,0 +1,53 @@
+{% extends "polls/base.html" %}
+{% load widget_tweaks %}
+
+{% block title %}ثبت نام - همگرایی{% endblock %}
+
+{% block main %}
+<div class="main-page">
+    <div class="page-login tcenter">
+        <form method="POST">
+        {% csrf_token %}
+        <div class="form-login">
+            <div class="page-title">
+                <h2>ثبت نام</h2>
+            </div>
+            {% if registration_form.errors %}
+                {% for field in registration_form %}
+                    {% for error in field.errors %}
+                        <div class="alert alert-danger">
+                            <strong>{{ error|escape }}</strong>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        <strong>{{ error|escape }}</strong>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            </br>
+            {% render_field registration_form.full_name class="form-control input-sm chat-input IRANSans" placeholder="نام و نام خانوادگی"  %}
+            </br>
+            {% render_field registration_form.city class="form-control input-sm chat-input IRANSans" placeholder="شهر"  %}
+            </br>
+            {% render_field registration_form.phone_number class="form-control input-sm chat-input IRANSans" placeholder="شماره موبایل"  %}
+            </br>
+            {% render_field registration_form.email class="form-control input-sm chat-input IRANSans" placeholder="ایمیل"  %}
+            </br>
+            {% render_field registration_form.password1 class="form-control input-sm chat-input IRANSans" placeholder="رمز عبور"  %}
+            </br>
+            {% render_field registration_form.password2 class="form-control input-sm chat-input IRANSans" placeholder="تکرار رمز عبور"  %}
+            </br>
+            <div class="wrapper tcenter">
+                <span class="group-btn">
+                    <a href="{% url 'login' %}" class="IRANSans">ورود به حساب کاربری <i class="fa fa-sign-in"></i></a>
+                    <button class="btn btn-primary btn-md IRANSans" type="submit">ثبت نام</button>
+                </span>
+            </div>
+        </div>
+        </form>                        
+
+    </div>
+</div>
+{% endblock %}

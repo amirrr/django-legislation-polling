@@ -1,0 +1,148 @@
+{% extends "polls/base.html" %}
+
+{% block title %}سامانه همگرایی{% endblock %}
+
+{% block main %}
+<div class="main-page">
+    <div class="page-title">
+      <h1 class="IRANSans">{{ poll.title }}</h1>
+    </div>
+
+    <div class="page-image">
+      <img src="{% if poll.picture %}{{ poll.picture.url }}{% endif %}" alt="">
+    </div>
+
+    <div class="page-text">
+      <p class="IRANSans">
+        {{ poll.description|safe }}
+      </p>
+    </div>
+
+
+    <div class="page-box">
+        <div class="page-title">
+            <h2 class="IRANSans">نتایج آرا تا به این لحظه</h2>
+        </div>
+
+        <ul class="list-group">
+            <li class="list-group-item">موافق &mdash; <strong>{{ poll.option_one_count }}</strong></li>
+            <li class="list-group-item">مخالف &mdash; <strong>{{ poll.option_two_count }}</strong></li>
+            <li class="list-group-item">ممتنع &mdash; <strong>{{ poll.option_three_count }}</strong></li>
+        </ul>
+
+        <div class="panel-footer">
+            Total &mdash; <strong>{{ poll.total }}</strong>
+        </div>
+    </div>
+
+    
+    <div class="container">
+        <div class="page-title">
+            <h2 class="IRANSans">نتایج آرا تا به این لحظه</h2>
+        </div>
+        <div>
+            <canvas id="myChart" height="100"></canvas>
+        </div>
+
+    </div>
+
+
+
+
+    <div class="page-box">
+        
+        {% if voted %}
+        <div class="panel panel-primary">
+          <div class="page-title">
+            <h2 class="IRANSans">شما قبلاً در این نظرسنجی شرکت کرده اید</h2>
+          </div>
+        </div>
+      
+        {% else %}
+
+        <div class="page-title">
+          <h2 class="IRANSans">ثبت رای</h2>
+        </div>
+        <div class="panel panel-primary">
+            <form method="POST">
+            {% csrf_token %}
+            <div class="panel-body">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <div class="radio">
+                        <label class="IRANSans">
+                            <input type="radio" name="poll" value="option1" required>
+                            موافق
+                        </label>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="radio">
+                        <label class="IRANSans">
+                            <input type="radio" name="poll" value="option3">
+                            ممتنع
+                        </label>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="radio">
+                        <label class="IRANSans">
+                            <input type="radio" name="poll" value="option2">
+                            مخالف
+                        </label>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="panel-footer">
+                <button type="submit" class="btn btn-primary btn-sm IRANSans">
+                    ثبت نظر</button>
+            </div>
+            </form>
+        </div>
+        
+        {% endif %}
+
+
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+
+<script type="text/javascript">
+  var txt = $('.card-text').text();
+  console.log(txt.length);
+  if (txt.length > 400)
+    $('.card-text').text(txt.substring(0, 230) + ' .....');
+</script>
+
+<script type="text/javascript">
+  var ctx = document.getElementById("myChart").getContext('2d');
+  var myChart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+      labels: ["موافق", "مخالف", "ممتنع"],
+      datasets: [{
+        backgroundColor: [
+          "#2ecc71",
+          "#e74c3c",
+          "#34495e"
+        ],
+        data: [{{ poll.option_one_count }}, {{ poll.option_two_count }}, {{ poll.option_three_count }}]
+      }]
+    },
+    options: {
+      legend: {
+        labels: {
+          fontFamily: 'IRANSans'
+        }
+      }
+    }
+  });
+</script>
+
+{% endblock %}

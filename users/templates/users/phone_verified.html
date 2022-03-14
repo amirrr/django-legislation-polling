@@ -1,0 +1,25 @@
+{% extends "polls/base.html" %}
+
+{% block title %}سامانه همگرایی{% endblock %}
+
+{% block main %}
+<div class="main-page">
+    <div class="page-login tcenter">
+        <div class="form-login">
+            <div class="page-title">
+                <h2>شماره تلفن شما تأیید شده است</h2>
+                </br></br>
+                <a href="/" class="IRANSans"><h2>رأی دهید</h2></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function redirect(){
+       window.location.href = "/";
+    }
+
+    setTimeout(redirect, 3000); //2000 is equivalent to 2 seconds
+</script>
+{% endblock %}

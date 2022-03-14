@@ -1,0 +1,83 @@
+{% extends "polls/base.html" %}
+
+
+
+{% block title %} {{ poll.title }} {% endblock %}
+
+{% block main %}
+<div class="main-page">
+  <div class="page-title">
+    <h1 class="IRANSans">{{ poll.title }}</h1>
+  </div>
+
+  <div class="page-image">
+    <img src="{% if poll.picture %}{{ poll.picture.url }}{% endif %}" alt="">
+  </div>
+
+  <div class="page-text">
+    <p class="IRANSans">
+      {{ poll.description|safe }}
+    </p>
+  </div>
+
+
+  <div class="page-box">
+      <div class="page-title">
+          <h2 class="IRANSans">نتایج آرا تا به این لحظه</h2>
+      </div>
+
+      <ul style="padding-right: 0; margin-bottom: 20px;" class="list-group IRANSans">
+          <li class="list-group-item">موافق &mdash; <strong>{{ poll.option_one_count }}</strong></li>
+          <li class="list-group-item">مخالف &mdash; <strong>{{ poll.option_two_count }}</strong></li>
+          <li class="list-group-item">ممتنع &mdash; <strong>{{ poll.option_three_count }}</strong></li>
+      </ul>
+
+      <div class="panel-footer IRANSans">
+          کل آرا &mdash; <strong>{{ poll.total }}</strong>
+      </div>
+  </div>
+
+  
+  <div class="container">
+      <div class="page-title">
+          <h2 class="IRANSans">نتایج آرا تا به این لحظه</h2>
+      </div>
+      <div>
+          <canvas id="myChart" height="100"></canvas>
+      </div>
+
+  </div>
+
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+
+<script type="text/javascript">
+  var ctx = document.getElementById("myChart").getContext('2d');
+  var myChart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+      labels: ["موافق", "مخالف", "ممتنع"],
+      datasets: [{
+        backgroundColor: [
+          "#2ecc71",
+          "#e74c3c",
+          "#34495e"
+        ],
+        data: [{{ poll.option_one_count }}, {{ poll.option_two_count }}, {{ poll.option_three_count }}]
+      }]
+    },
+    options: {
+      legend: {
+        labels: {
+          fontFamily: 'IRANSans'
+        }
+      }
+    }
+  });
+
+</script>
+
+{% endblock %}

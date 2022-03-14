@@ -1,0 +1,28 @@
+{% extends "polls/base.html" %}
+
+{% block title %}سامانه همگرایی{% endblock %}
+
+{% block main %}
+<div class="main-page">
+  <div class="page-login tcenter">
+      <div class="form-login">
+          <div class="page-title">
+              <h2>با موفقیت خارج شدید</h2>
+              <p>تا چند ثانیه دیگر به صفحه اصلی می روید</p>
+          </div>
+          <div class="wrapper tcenter">
+              <span class="group-btn">
+                  <a href="/login" class="IRANSans">ورود مجدد<i class="fa fa-sign-in"></i></a>
+              </span>
+          </div>
+      </div>
+  </div>
+</div>
+<script>
+    function redirect(){
+       window.location.href = "/";
+    }
+
+    setTimeout(redirect, 3000); //2000 is equivalent to 2 seconds
+</script>
+{% endblock %}

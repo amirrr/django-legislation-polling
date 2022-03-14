@@ -1,0 +1,54 @@
+{% extends "polls/base.html" %}
+{% load widget_tweaks %}
+
+{% block title %}Verified{% endblock %}
+
+{% block main %}
+<div class="main-page">
+    <div class="page-login tcenter">
+        <form method="POST" data-resend-url="{% url "resend_code" %}">
+        {% csrf_token %}
+        <div class="form-login">
+            <div class="page-title">
+                <h2>کد ارسال شده به شماره موبایل خود ({{ phone }}) را وارد کنید</h2>
+            </div>
+            
+            {% render_field verification_form.verification_code class="form-control input-sm chat-input IRANSans" placeholder="کد خود را وارد کنید"  %}
+            </br>
+            
+            {% if verification_form.verification_code.help_text %}
+                <small style="color: grey;">{{ verification_form.verification_code.help_text }}</small> <br> <br>
+            {%  endif %}
+
+            <div class="wrapper tcenter">
+                <span class="group-btn">
+                    <a href="/resend_otp" class="IRANSans resend">ارسال مجدد پیامک تأیید       <i class="fa fa-sign-in"></i></a>
+                    <button class="btn btn-primary btn-md IRANSans" type="submit">ورود <i class="fa fa-sign-in"></i></button>   
+                </span>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+    <script type="text/javascript">
+        $('.resend').click(function(event) { 
+            var form = $(this).closest("form");
+            event.preventDefault(); 
+            $.ajax({
+                url: form.attr("data-resend-url"),
+                dataType: 'json',
+                success: function (data) {
+                    if (data.is_sent) {
+                        alert("message sent.");
+                    } else {
+                        alert("message not sent\nyou have to wait " + data.time + " seconds!")
+                    }
+                }
+            });
+            return false; // for good measure
+        });
+    </script>
+{% endblock %}
